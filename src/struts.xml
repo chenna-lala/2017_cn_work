@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <package name="regist" extends="struts-default" namespace="/">
+        <action name="login" class="nuc.sw.action.LoginAction" method="loginMethod">
+            <result name="loginok" type="chain">pictureAction</result>
+            <result name="input">/index.jsp</result>
+        </action>
+    <action name="registAction" class="nuc.sw.action.RegistAction" method="registMethod">
+        <result name="ok">/index.jsp</result>
+        <result name="input">
+            /regist.jsp
+        </result>
+    </action>
+        <action name="addpictureAction" class="nuc.sw.action.addpictureAction" method="addpictureMethod">
+            <result name="ok" type="chain">pictureAction</result>
+            <result name="input">
+                /addpicture.jsp
+            </result>
+        </action>
+        <action name="pictureAction" class="nuc.sw.action.PictureAction" method="findAll">
+            <result name="findAllOK">
+                /show.jsp
+            </result>
+        </action>
+        <action class="nuc.sw.action.UploadAction" name="uploadAction" method="Upload">
+            <interceptor-ref name="fileUpload">
+                <param name="allowedExtensions">png,jpg,jpeg</param>
+                <param name="maximumSize">10240000</param>
+                <param name="allowedTypes">image/png,image/jpeg</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"/>
+            <param name="savePath" >
+                /Users/chenna/Desktop/
+            </param>
+            <result name="uploadOk" type="chain">UploadListAction</result>
+            <result name="input">/upload.jsp</result>
+        </action>
+        <action name="CodeAction" class="nuc.sw.action.CodeAction">
+            <result name="success" type="stream">
+                <param name="contentType">image/jpeg</param>
+                <param name="inputName">inputStream</param>
+            </result>
+        </action>
+        <action name="delete" class="nuc.sw.action.PictureAction" method="deleteMethod">
+            <result name="deleteok" type="chain">pictureAction</result>
+        </action>
+        <action name="DeleteAction" class="nuc.sw.action.DeleteAction" method="deleteMethod">
+            <result name="ok">
+                selectUser.jsp
+            </result>
+            <result name="input">
+                selectUser.jsp
+            </result>
+
+        </action>
+        <action name="picturedelete" class="nuc.sw.action.DeletePictureAction" method="deletepictureMethod">
+            <result name="ok" type="chain">pictureAction</result>
+            <result name="input">
+                show.jsp
+            </result>
+        </action>
+        <action name="UploadListAction" class="nuc.sw.action.UploadListAction" method="selectAll">
+            <result name="findAllOK">
+                showfile.jsp
+            </result>
+        </action>
+        <action name="selectpicturename" class="nuc.sw.action.PictureAction" method="selectpicturename">
+            <result name="findOK" >
+               show.jsp
+            </result>
+        </action>
+        <action class="nuc.sw.action.DownloadAction" name="downloadAction">
+            <result name="success" type="stream">
+                <param name="contentType">${contentType}</param>
+                <param name="inputName">targetFile</param>
+                <param name="contentDisposition">attachment;filename=${downFileName}</param>
+            </result>
+        </action>
+        <action name="selecttheme" class="nuc.sw.action.PictureAction" method="selecttheme">
+            <result name="findOK" >
+                show.jsp
+            </result>
+        </action>
+    </package>
+</struts>
